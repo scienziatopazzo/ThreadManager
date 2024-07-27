@@ -3,26 +3,26 @@ package dev.vedcodee.it;
 import dev.vedcodee.it.enums.Mode;
 import dev.vedcodee.it.executors.imp.*;
 import dev.vedcodee.it.executors.model.Executor;
+import dev.vedcodee.it.manager.ExecutorManager;
 
 import java.util.*;
 
 public class ThreadManager {
 
-    private final Set<Executor> executors;
+    private final ExecutorManager executorManager;
 
     public ThreadManager() {
-        this.executors = new HashSet<>();
-        executors.add(new AsyncExecutor());
-        executors.add(new ParallelExecutor());
-        executors.add(new QueueExecutor());
-        executors.add(new WorkStealingExecutor());
+        this.executorManager = new ExecutorManager();
+        executorManager.add(new AsyncExecutor());
+        executorManager.add(new ParallelExecutor());
+        executorManager.add(new QueueExecutor());
+        executorManager.add(new WorkStealingExecutor());
+        executorManager.add(new IntervalExecutor());
+        executorManager.add(new NormalExecutor());
     }
 
     public void addThread(Runnable runnable, Mode mode) {
-        Executor executor = executors.stream()
-                .filter(e -> e.getMode() == mode)
-                .findFirst()
-                .orElse(null);
+        Executor executor = executorManager.get(mode);
 
         if(executor == null)
             throw new IllegalArgumentException("Unsupported mode: " + mode);
@@ -31,7 +31,7 @@ public class ThreadManager {
     }
 
     public void shutdown() {
-        executors.forEach(executor -> executor.shutdown());
+        executorManager.shutdown();
     }
 
 }
