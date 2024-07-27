@@ -3,10 +3,10 @@ package dev.vedcodee.it.enums;
 public enum Mode {
 
     PARALLEL,
-    ASYNC, // Recreated by me
+    ASYNC,
     QUEUE,
     WORK_STEALING,
-    INTERVAL, // If you have
+    INTERVAL,
     NORMAL;
 
 }

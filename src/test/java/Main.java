@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
         ThreadManager threadManager = new ThreadManager();
-        
+
         List<String> list = new CopyOnWriteArrayList<>();
 
 
@@ -40,7 +40,7 @@ public class Main {
 
         if(test == 1) {
             time = System.currentTimeMillis();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 100000000; i++)
                 threadManager.addThread(baseTask, Mode.ASYNC);
             System.out.println("Finished in " + (System.currentTimeMillis() - time) + "ms");
         }
@@ -48,9 +48,11 @@ public class Main {
         if(test == 2) {
             time = System.currentTimeMillis();
             for (int i = 0; i < 100; i++)
-                threadManager.addThread(baseTask, Mode.ASYNC);
+                threadManager.addThread(baseTask, Mode.PARALLEL);
             System.out.println("Finished in " + (System.currentTimeMillis() - time) + "ms");
         }
+
+        threadManager.shutdown();
 
     }
 
